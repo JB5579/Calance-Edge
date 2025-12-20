@@ -1,0 +1,148 @@
+{
+  "industry": "Healthcare",
+  "icon": "🏥",
+  "color": "#10b981",
+  "description": "Healthcare systems, hospitals, medical technology, and life sciences",
+  "caseStudyPrompts": {
+    "structured": {
+      "commonChallenges": [
+        "Patient data security and HIPAA compliance",
+        "Electronic health record (EHR) optimization",
+        "Telehealth implementation and adoption",
+        "Care coordination across multiple facilities",
+        "Staff scheduling and resource allocation",
+        "Medical device integration",
+        "Patient experience improvement",
+        "Healthcare cost reduction"
+      ],
+      "commonSolutions": [
+        "Integrated EHR/EMR systems",
+        "Secure patient portals",
+        "AI-powered diagnostic tools",
+        "Mobile health applications",
+        "Care team collaboration platforms",
+        "Predictive analytics for patient outcomes",
+        "Robotic process automation",
+        "Interoperability solutions"
+      ],
+      "commonMetrics": [
+        {
+          "category": "Patient Care",
+          "examples": ["Patient satisfaction scores", "Readmission rates", "Treatment outcomes", "Wait times"]
+        },
+        {
+          "category": "Operational Efficiency",
+          "examples": ["Staff productivity", "Bed occupancy rates", "Appointment scheduling", "Resource utilization"]
+        },
+        {
+          "category": "Financial Performance",
+          "examples": ["Cost per patient", "Revenue cycle improvement", "Claim denial rates", "Operational cost reduction"]
+        },
+        {
+          "category": "Clinical Quality",
+          "examples": ["Medical error reduction", "Protocol adherence", "Preventive care compliance", "Medication accuracy"]
+        }
+      ],
+      "commonBenefits": [
+        "Improved patient outcomes",
+        "Enhanced patient experience",
+        "Increased operational efficiency",
+        "Better care coordination",
+        "Reduced healthcare costs",
+        "Enhanced data security",
+        "Regulatory compliance",
+        "Staff satisfaction improvement"
+      ]
+    },
+    "freeform": {
+      "keywordTriggers": [
+        "patient", "care", "medical", "health", "clinical",
+        "hospital", "healthcare", "EHR", "EMR", "telehealth",
+        "diagnosis", "treatment", "outcome", "HIPAA", "compliance",
+        "provider", "caregiver", "medical record", "patient safety"
+      ],
+      "contextualQuestions": [
+        "What specific healthcare challenge was addressed?",
+        "How did patient care improve?",
+        "What compliance requirements were met?",
+        "How was staff efficiency impacted?",
+        "What measurable health outcomes were achieved?"
+      ]
+    }
+  },
+  "presentationPrompts": {
+    "titlePatterns": [
+      "{HealthcareSystem} Transforms Patient Care with {Solution}",
+      "Improving {HealthMetric} at {HospitalName}",
+      "{ClientName}: Modernizing Healthcare Delivery",
+      "Enhancing Patient Experience Through {TechnologyType}"
+    ],
+    "keySections": [
+      "Healthcare Challenge",
+      "Patient Impact",
+      "Solution Overview",
+      "Implementation Process",
+      "Clinical Outcomes",
+      "Future Care Vision"
+    ],
+    "visualElements": [
+      "Patient journey maps",
+      "Clinical outcome graphs",
+      "Care process flows",
+      "Before/after patient metrics",
+      "Technology integration diagrams"
+    ]
+  },
+  "recruitingPrompts": {
+    "jobDescription": {
+      "requiredSkills": [
+        "Healthcare IT experience",
+        "EHR/EMR systems knowledge",
+        "HIPAA compliance expertise",
+        "Clinical workflow understanding",
+        "Healthcare data standards (HL7, FHIR)",
+        "Patient privacy and security",
+        "Healthcare regulations"
+      ],
+      "commonRoles": [
+        "Healthcare IT Consultant",
+        "Clinical Systems Analyst",
+        "Health Informatics Specialist",
+        "EHR Implementation Manager",
+        "Healthcare Project Manager",
+        "Clinical Application Analyst",
+        "Health Data Analyst",
+        "Telehealth Specialist"
+      ]
+    },
+    "interviewQuestions": {
+      "technical": [
+        "Describe your experience with healthcare IT systems",
+        "How do you ensure HIPAA compliance in your work?",
+        "What's your approach to implementing new clinical systems?",
+        "How do you handle healthcare data integration challenges?"
+      ],
+      "behavioral": [
+        "Describe a time you improved patient care through technology",
+        "How do you work with clinical staff?",
+        "Tell me about a complex healthcare implementation you managed"
+      ]
+    }
+  },
+  "brandGuidance": {
+    "tone": "Compassionate, professional, patient-focused",
+    "keyPhrases": [
+      "patient-centered care",
+      "clinical excellence",
+      "healthcare innovation",
+      "improved outcomes",
+      "care coordination",
+      "medical advancement"
+    ],
+    "avoidPhrases": [
+      "overly technical medical jargon",
+      "sensitive patient information",
+      "unsubstantiated medical claims"
+    ]
+  }
+}

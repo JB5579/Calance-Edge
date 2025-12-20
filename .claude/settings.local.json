@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "SlashCommand(/bmad:bmm:agents:pm)",
+      "SlashCommand(/bmad:bmm:workflows:create-epics-and-stories)",
+      "Bash(npm create vite@latest:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss:*)",
+      "mcp__context7__resolve-library-id",
+      "Bash(pip install:*)",
+      "Bash(ls:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_handle_dialog",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_select_option",
+      "Bash(tree:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:openrouter.ai)",
+      "Bash(python3:*)",
+      "Bash(docker exec:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git rev-parse:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

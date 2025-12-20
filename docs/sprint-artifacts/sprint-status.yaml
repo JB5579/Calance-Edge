@@ -1,0 +1,115 @@
+# generated: 2025-12-03
+# project: Calance_Edge
+# project_key: CALANCE_EDGE
+# tracking_system: file-system
+# story_location: docs/sprint-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic exists in epic file but not contexted
+#   - contexted: Epic tech context created (required before drafting stories)
+#   - in-progress: Epic is being actively worked on
+#   - done: Epic completed
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - drafted: Story file created in stories folder
+#   - ready-for-dev: Draft approved and story context created
+#   - in-progress: Developer actively working on implementation
+#   - review: Under SM review (via code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - completed: Retrospective has been done
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epics should be 'contexted' before stories can be 'drafted'
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically drafts next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', SM reviews, then Dev moves to 'done'
+
+generated: 2025-12-03
+project: Calance_Edge
+project_key: CALANCE_EDGE
+tracking_system: file-system
+story_location: docs/sprint-artifacts
+
+development_status:
+  # Epic 1: Foundation & Infrastructure
+  epic-1: contexted
+  1-1-project-scaffolding-core-setup: backlog
+  1-2-docker-deployment-configuration: backlog
+  1-3-brand-system-shared-components: backlog
+  1-4-llm-router-service-integration: backlog
+  epic-1-retrospective: optional
+
+  # Epic 2: Case Study Edge
+  epic-2: contexted
+  2-1-case-study-input-form-implementation: backlog
+  2-2-ai-powered-case-study-generation: backlog
+  2-3-live-preview-system-implementation: backlog
+  2-4-feedback-refinement-workflow: backlog
+  2-5-pdf-export-implementation: backlog
+  2-6-standalone-html-export: backlog
+  epic-2-retrospective: optional
+
+  # Epic 3: Presentation Edge
+  epic-3: contexted
+  3-1-presentation-setup-wizard: backlog
+  3-2-key-points-input-system: backlog
+  3-3-ai-slide-generation-engine: backlog
+  3-4-slide-preview-navigation: backlog
+  3-5-per-slide-refinement-system: backlog
+  3-6-html-presentation-export: backlog
+  epic-3-retrospective: optional
+
+  # Epic 4: Recruiting Toolkit
+  epic-4: contexted
+  4-1-tabbed-interface-framework: backlog
+  4-2-jd-enhancer-tool: backlog
+  4-3-sourcing-email-generator: backlog
+  4-4-boolean-search-string-creator: backlog
+  4-5-candidate-submittal-generator: backlog
+  4-6-interview-prep-email-builder: backlog
+  4-7-mock-interview-questions-generator: backlog
+  4-8-skills-title-location-extractor: backlog
+  4-9-executive-summary-writer: backlog
+  4-10-universal-copy-to-clipboard-system: backlog
+  epic-4-retrospective: optional
+
+# MVP Sprint Plan (3-5 Day Timeline)
+# ==================================
+# Day 1: Foundation (Epic 1 - 4 stories)
+# - Story 1.1: Project Scaffolding and Core Setup
+# - Story 1.2: Docker Deployment Configuration
+# - Story 1.3: Brand System and Shared Components
+# - Story 1.4: LLM Router Service Integration
+#
+# Day 2: Case Study Edge (Epic 2 - 6 stories)
+# - Story 2.1: Case Study Input Form Implementation
+# - Story 2.2: AI-Powered Case Study Generation
+# - Story 2.3: Live Preview System Implementation
+# - Story 2.4: Feedback and Refinement Workflow
+# - Story 2.5: PDF Export Implementation
+# - Story 2.6: Standalone HTML Export
+#
+# Day 3: Presentation Edge (Epic 3 - 6 stories)
+# - Story 3.1: Presentation Setup Wizard
+# - Story 3.2: Key Points Input System
+# - Story 3.3: AI Slide Generation Engine
+# - Story 3.4: Slide Preview and Navigation
+# - Story 3.5: Per-Slide Refinement System
+# - Story 3.6: HTML Presentation Export
+#
+# Day 4: Recruiting Toolkit (Epic 4 - 10 stories)
+# - Story 4.1: Tabbed Interface Framework
+# - Stories 4.2-4.10: All 8 recruiting tools + copy system
+#
+# Day 5: Polish & Deployment
+# - Cross-browser testing and mobile responsiveness
+# - Performance optimization
+# - Documentation and deployment package
+# - Final integration testing

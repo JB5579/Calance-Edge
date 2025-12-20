@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calance Sales Edge - User Flow Diagrams</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --navy: #1e3a5f;
+            --blue: #2563eb;
+            --orange: #f97316;
+            --red: #dc2626;
+            --dark: #1f2937;
+            --gray: #6b7280;
+            --light: #f3f4f6;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .logo-text {
+            text-align: left;
+        }
+        
+        .logo-text .company {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--dark);
+        }
+        
+        .logo-text .product {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--orange);
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-size: 16px;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            border: none;
+            background: white;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .tab:hover {
+            color: var(--dark);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .tab.active {
+            background: var(--navy);
+            color: white;
+            box-shadow: 0 4px 12px rgba(30,58,95,0.3);
+        }
+        
+        .flow-section {
+            display: none;
+        }
+        
+        .flow-section.active {
+            display: block;
+        }
+        
+        .flow-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .flow-title h2 {
+            font-size: 24px;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+        
+        .flow-title p {
+            color: var(--gray);
+        }
+        
+        /* Flow Diagram Styles */
+        .flow-diagram {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 0;
+            overflow-x: auto;
+        }
+        
+        .flow-step {
+            flex: 0 0 280px;
+            position: relative;
+        }
+        
+        .step-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .step-card:hover {
+            border-color: var(--blue);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        
+        .step-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+        
+        .step-description {
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+        
+        .step-fields {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .field {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            font-size: 12px;
+            color: var(--dark);
+        }
+        
+        .field-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--orange);
+            border-radius: 50%;
+        }
+        
+        .arrow {
+            flex: 0 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 60px;
+        }
+        
+        .arrow svg {
+            color: var(--gray);
+        }
+        
+        /* Screen Mockups */
+        .screen-mockup {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin: 40px auto;
+            max-width: 1000px;
+        }
+        
+        .screen-header {
+            background: var(--light);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .screen-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .screen-dot.red { background: #ef4444; }
+        .screen-dot.yellow { background: #eab308; }
+        .screen-dot.green { background: #22c55e; }
+        
+        .screen-content {
+            padding: 0;
+        }
+        
+        .app-layout {
+            display: flex;
+            min-height: 500px;
+        }
+        
+        .app-sidebar {
+            width: 220px;
+            background: #f8fafc;
+            border-right: 1px solid #e5e7eb;
+            padding: 20px 12px;
+        }
+        
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .sidebar-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .sidebar-logo-text {
+            font-size: 12px;
+        }
+        
+        .sidebar-logo-text .name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .sidebar-logo-text .tag {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--orange);
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            font-size: 13px;
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-item:hover {
+            background: white;
+            color: var(--dark);
+        }
+        
+        .nav-item.active {
+            background: white;
+            color: var(--dark);
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--orange);
+        }
+        
+        .nav-icon {
+            width: 18px;
+            height: 18px;
+            background: currentColor;
+            mask-size: contain;
+            -webkit-mask-size: contain;
+        }
+        
+        .app-main {
+            flex: 1;
+            padding: 24px;
+            background: white;
+        }
+        
+        .main-header {
+            margin-bottom: 24px;
+        }
+        
+        .main-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+        
+        .main-header p {
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .content-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        
+        .card-step {
+            width: 28px;
+            height: 28px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-field {
+            margin-bottom: 12px;
+        }
+        
+        .form-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--gray);
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 12px;
+            background: white;
+        }
+        
+        .form-textarea {
+            min-height: 60px;
+            resize: none;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 1px solid #e5e7eb;
+        }
+        
+        .preview-placeholder {
+            background: white;
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            color: var(--gray);
+        }
+        
+        .preview-placeholder-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--light);
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Export Section */
+        .export-bar {
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            background: var(--light);
+            border-radius: 10px;
+            margin-top: 16px;
+        }
+        
+        /* Info Boxes */
+        .info-box {
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 40px 0;
+        }
+        
+        .info-box h4 {
+            color: var(--navy);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .info-box p {
+            color: var(--gray);
+            font-size: 13px;
+        }
+        
+        /* Recruiting Tabs */
+        .recruiting-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 4px;
+            background: var(--light);
+            border-radius: 10px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+        }
+        
+        .recruiting-tab {
+            padding: 8px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--gray);
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .recruiting-tab.active {
+            background: white;
+            color: var(--dark);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">C</div>
+                <div class="logo-text">
+                    <div class="company">CALANCE</div>
+                    <div class="product">SALES EDGE</div>
+                </div>
+            </div>
+            <h1>User Flow Diagrams</h1>
+            <p class="subtitle">Interactive wireframes and user journey documentation</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showFlow('overview')">App Overview</button>
+            <button class="tab" onclick="showFlow('casestudy')">Case Study Flow</button>
+            <button class="tab" onclick="showFlow('presentation')">Presentation Flow</button>
+            <button class="tab" onclick="showFlow('recruiting')">Recruiting Toolkit</button>
+        </div>
+
+        <!-- Overview Section -->
+        <section id="overview" class="flow-section active">
+            <div class="flow-title">
+                <h2>Application Architecture</h2>
+                <p>Three modules, one unified interface</p>
+            </div>
+
+            <div class="screen-mockup">
+                <div class="screen-header">
+                    <div class="screen-dot red"></div>
+                    <div class="screen-dot yellow"></div>
+                    <div class="screen-dot green"></div>
+                </div>
+                <div class="screen-content">
+                    <div class="app-layout">
+                        <div class="app-sidebar">
+                            <div class="sidebar-logo">
+                                <div class="sidebar-logo-icon">C</div>
+                                <div class="sidebar-logo-text">
+                                    <div class="name">CALANCE</div>
+                                    <div class="tag">SALES EDGE</div>
+                                </div>
+                            </div>
+                            <div class="nav-item active">
+                                <span>📄</span> Case Studies
+                            </div>
+                            <div class="nav-item">
+                                <span>📊</span> Presentations
+                            </div>
+                            <div class="nav-item">
+                                <span>👥</span> Recruiting Toolkit
+                            </div>
+                            <div style="border-top: 1px solid #e5e7eb; margin: 20px 0;"></div>
+                            <div class="nav-item">
+                                <span>⚙️</span> Settings
+                            </div>
+                        </div>
+                        <div class="app-main">
+                            <div class="main-header">
+                                <h2>Case Studies</h2>
+                                <p>Create professional client success stories</p>
+                            </div>
+                            <div class="content-grid">
+                                <div class="content-card">
+                                    <div class="card-header">
+                                        <div class="card-step">1</div>
+                                        <div class="card-title">Enter Details</div>
+                                    </div>
+                                    <div class="form-field">
+                                        <label class="form-label">Client Name *</label>
+                                        <input class="form-input" placeholder="e.g., Beazer Homes">
+                                    </div>
+                                    <div class="form-field">
+                                        <label class="form-label">Industry *</label>
+                                        <select class="form-input">
+                                            <option>Technology</option>
+                                            <option>Real Estate</option>
+                                            <option>Healthcare</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-field">
+                                        <label class="form-label">Business Challenge *</label>
+                                        <textarea class="form-input form-textarea" placeholder="Describe the problem..."></textarea>
+                                    </div>
+                                    <button class="btn btn-primary">✨ Generate Draft</button>
+                                </div>
+                                <div class="content-card">
+                                    <div class="card-header">
+                                        <div class="card-step">2</div>
+                                        <div class="card-title">Preview & Refine</div>
+                                    </div>
+                                    <div class="preview-placeholder">
+                                        <div class="preview-placeholder-icon">📄</div>
+                                        <p>Preview will appear here</p>
+                                        <p style="font-size: 11px; margin-top: 4px;">Fill out the form and click "Generate"</p>
+                                    </div>
+                                    <div class="export-bar">
+                                        <button class="btn btn-primary" style="font-size: 11px; padding: 8px 12px;">📥 PDF</button>
+                                        <button class="btn btn-secondary" style="font-size: 11px; padding: 8px 12px;">🌐 HTML</button>
+                                        <button class="btn btn-secondary" style="font-size: 11px; padding: 8px 12px;">📋 Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>💡 Design Philosophy</h4>
+                <p>Simple to build, simple to use, simple to maintain. Each module follows the same pattern: Input → Generate → Preview → Refine → Export. This consistency reduces learning time and creates muscle memory across all tools.</p>
+            </div>
+        </section>
+
+        <!-- Case Study Flow -->
+        <section id="casestudy" class="flow-section">
+            <div class="flow-title">
+                <h2>Case Study Creation Flow</h2>
+                <p>From client information to professional PDF in minutes</p>
+            </div>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Enter Client Details</div>
+                        <div class="step-description">User fills out the case study form with client information and metrics</div>
+                        <div class="step-fields">
+                            <div class="field"><div class="field-dot"></div> Client Name</div>
+                            <div class="field"><div class="field-dot"></div> Industry</div>
+                            <div class="field"><div class="field-dot"></div> Business Challenge</div>
+                            <div class="field"><div class="field-dot"></div> Solution Delivered</div>
+                            <div class="field"><div class="field-dot"></div> Metrics (Before/After)</div>
+                            <div class="field"><div class="field-dot"></div> Key Benefits</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-title">AI Generation</div>
+                        <div class="step-description">LLM enhances content, generates headline, and creates executive summary</div>
+                        <div class="step-fields">
+                            <div class="field"><div class="field-dot"></div> Enhanced Challenge</div>
+                            <div class="field"><div class="field-dot"></div> Enhanced Solution</div>
+                            <div class="field"><div class="field-dot"></div> Compelling Headline</div>
+                            <div class="field"><div class="field-dot"></div> Executive Summary</div>
+                            <div class="field"><div class="field-dot"></div> ROI Statement</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Preview & Refine</div>
+                        <div class="step-description">User reviews live preview and provides natural language feedback</div>
+                        <div class="step-fields">
+                            <div class="field"><div class="field-dot"></div> Live PDF Preview</div>
+                            <div class="field"><div class="field-dot"></div> Feedback Text Area</div>
+                            <div class="field"><div class="field-dot"></div> Regenerate Button</div>
+                            <div class="field"><div class="field-dot"></div> Iterate as needed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Export</div>
+                        <div class="step-description">Download final case study in preferred format</div>
+                        <div class="step-fields">
+                            <div class="field"><div class="field-dot"></div> Download PDF</div>
+                            <div class="field"><div class="field-dot"></div> Download HTML</div>
+                            <div class="field"><div class="field-dot"></div> Copy Link</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>🔄 The Feedback Loop</h4>
+                <p>Users can provide natural language feedback like "Make the ROI more prominent" or "Add more technical details to the solution section" — the AI will intelligently apply these changes while maintaining professional tone and Calance branding.</p>
+            </div>
+        </section>
+
+        <!-- Presentation Flow -->
+        <section id="presentation" class="flow-section">
+            <div class="flow-title">
+                <h2>Presentation Creation Flow</h2>
+                <p>Transform key points into professional slide decks</p>
+            </div>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Configure Setup</div>
+                        <div class="step-description">Define presentation goals and audience</div>
+                        <div class="step-fields">
+                            <div class="field"><div class="field-dot"></div> Presentation Title</div>
+                            <div class="field"><div class="field-dot"></div> Purpose/Goal</div>
+                            <div class="field"><div class="field-dot"></div> Target Audience</div>
+                            <div class="field"><div class="field-dot"></div> Theme Selection</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Add Key Points</div>
+                        <div class="step-description">Each point becomes a slide</div>
+                        <div class="step-fields">
+                            <div class="field"><div class="field-dot"></div> Point 1: Introduction</div>
+                            <div class="field"><div class="field-dot"></div> Point 2: Problem</div>
+                            <div class="field"><div class="field-dot"></div> Point 3: Solution</div>
+                            <div class="field"><div class="field-dot"></div> Point 4: Benefits</div>
+                            <div class="field"><div class="field-dot"></div> Point 5: CTA</div>
+                            <div class="field"><div class="field-dot"></div> + Add More...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Preview Slides</div>
+                        <div class="step-description">Navigate through generated slides</div>
+                        <div class="step-fields">
+                            <div class="field"><div class="field-dot"></div> Slide Carousel</div>
+                            <div class="field"><div class="field-dot"></div> Slide Navigation</div>
+                            <div class="field"><div class="field-dot"></div> Per-Slide Feedback</div>
+                            <div class="field"><div class="field-dot"></div> Global Feedback</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Export HTML</div>
+                        <div class="step-description">Self-contained presentation file</div>
+                        <div class="step-fields">
+                            <div class="field"><div class="field-dot"></div> Download HTML</div>
+                            <div class="field"><div class="field-dot"></div> Arrow Key Navigation</div>
+                            <div class="field"><div class="field-dot"></div> Works Offline</div>
+                            <div class="field"><div class="field-dot"></div> Screen Share Ready</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>📺 Why HTML?</h4>
+                <p>HTML presentations work perfectly for screen sharing over Teams, Zoom, and Meet. They're self-contained (no server needed), support keyboard navigation, and display beautifully on any screen. PPTX export is planned for Phase 2.</p>
+            </div>
+        </section>
+
+        <!-- Recruiting Flow -->
+        <section id="recruiting" class="flow-section">
+            <div class="flow-title">
+                <h2>Recruiting Toolkit</h2>
+                <p>8 specialized tools in a tabbed interface</p>
+            </div>
+
+            <div class="screen-mockup">
+                <div class="screen-header">
+                    <div class="screen-dot red"></div>
+                    <div class="screen-dot yellow"></div>
+                    <div class="screen-dot green"></div>
+                </div>
+                <div class="screen-content">
+                    <div class="app-layout">
+                        <div class="app-sidebar">
+                            <div class="sidebar-logo">
+                                <div class="sidebar-logo-icon">C</div>
+                                <div class="sidebar-logo-text">
+                                    <div class="name">CALANCE</div>
+                                    <div class="tag">SALES EDGE</div>
+                                </div>
+                            </div>
+                            <div class="nav-item">
+                                <span>📄</span> Case Studies
+                            </div>
+                            <div class="nav-item">
+                                <span>📊</span> Presentations
+                            </div>
+                            <div class="nav-item active">
+                                <span>👥</span> Recruiting Toolkit
+                            </div>
+                        </div>
+                        <div class="app-main">
+                            <div class="main-header">
+                                <h2>Recruiting Toolkit</h2>
+                                <p>Generate staffing artifacts with AI</p>
+                            </div>
+                            
+                            <div class="recruiting-tabs">
+                                <button class="recruiting-tab active">JD Enhancer</button>
+                                <button class="recruiting-tab">Sourcing Email</button>
+                                <button class="recruiting-tab">Search Strings</button>
+                                <button class="recruiting-tab">Submittal</button>
+                                <button class="recruiting-tab">Interview Prep</button>
+                                <button class="recruiting-tab">Mock Q&A</button>
+                                <button class="recruiting-tab">Skills Extract</button>
+                                <button class="recruiting-tab">Exec Summary</button>
+                            </div>
+                            
+                            <div class="content-grid">
+                                <div class="content-card">
+                                    <div class="card-header">
+                                        <div class="card-title">Input</div>
+                                    </div>
+                                    <div class="form-field">
+                                        <label class="form-label">Job Description *</label>
+                                        <textarea class="form-input" style="min-height: 200px;" placeholder="Paste the full job description here..."></textarea>
+                                    </div>
+                                    <button class="btn btn-primary">✨ Generate Enhanced JD</button>
+                                </div>
+                                <div class="content-card">
+                                    <div class="card-header">
+                                        <div class="card-title">Output</div>
+                                        <button class="btn btn-secondary" style="font-size: 11px; padding: 6px 10px; margin-left: auto;">📋 Copy</button>
+                                    </div>
+                                    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 11px; line-height: 1.6; max-height: 240px; overflow-y: auto;">
+                                        <strong>Our Client:</strong> A leading technology company...<br><br>
+                                        <strong>Position:</strong> Senior Full Stack Engineer<br>
+                                        <strong>Duration:</strong> Full-time<br>
+                                        <strong>Location:</strong> Remote (US-based)<br><br>
+                                        <strong>Role Summary:</strong><br>
+                                        Join a dynamic team building next-generation...<br><br>
+                                        <strong>Responsibilities:</strong><br>
+                                        • Design and implement microservices...<br>
+                                        • Lead code reviews and mentor junior...<br>
+                                        • Collaborate with cross-functional teams...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px;">
+                <div class="step-card" style="text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 8px;">✨</div>
+                    <div class="step-title">JD Enhancer</div>
+                    <div class="step-description">Transform internal JDs into compelling postings</div>
+                </div>
+                <div class="step-card" style="text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 8px;">📧</div>
+                    <div class="step-title">Sourcing Email</div>
+                    <div class="step-description">Personalized candidate outreach</div>
+                </div>
+                <div class="step-card" style="text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 8px;">🔍</div>
+                    <div class="step-title">Search Strings</div>
+                    <div class="step-description">Platform-specific Boolean queries</div>
+                </div>
+                <div class="step-card" style="text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 8px;">📄</div>
+                    <div class="step-title">Submittal Gen</div>
+                    <div class="step-description">Standardized candidate submittals</div>
+                </div>
+                <div class="step-card" style="text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 8px;">📅</div>
+                    <div class="step-title">Interview Prep</div>
+                    <div class="step-description">Comprehensive prep emails</div>
+                </div>
+                <div class="step-card" style="text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 8px;">❓</div>
+                    <div class="step-title">Mock Q&A</div>
+                    <div class="step-description">Vetting questions with answers</div>
+                </div>
+                <div class="step-card" style="text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
+                    <div class="step-title">Skills Extract</div>
+                    <div class="step-description">Parse skills, title, location</div>
+                </div>
+                <div class="step-card" style="text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 8px;">📝</div>
+                    <div class="step-title">Exec Summary</div>
+                    <div class="step-description">Candidate-role fit summaries</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>📋 Copy & Paste Workflow</h4>
+                <p>All recruiting tools output text that can be instantly copied to clipboard. No downloads needed — just paste directly into your ATS, email, or document. This keeps the workflow fast and friction-free.</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>Calance Sales Edge - Technical UI Documentation</p>
+            <p style="margin-top: 8px;">Version 1.0 • December 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        function showFlow(id) {
+            // Update tabs
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update sections
+            document.querySelectorAll('.flow-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+    </script>
+</body>
+</html>

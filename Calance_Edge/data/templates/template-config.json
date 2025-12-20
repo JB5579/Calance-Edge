@@ -1,0 +1,44 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-12-19",
+  "industries": [
+    {
+      "id": "technology",
+      "name": "Technology & Software",
+      "description": "Software, SaaS, and technology companies",
+      "enabled": true
+    },
+    {
+      "id": "healthcare",
+      "name": "Healthcare",
+      "description": "Healthcare systems, hospitals, and medical technology",
+      "enabled": true
+    },
+    {
+      "id": "financial-services",
+      "name": "Financial Services",
+      "description": "Banking, insurance, and financial technology",
+      "enabled": true
+    },
+    {
+      "id": "manufacturing",
+      "name": "Manufacturing & Industrial",
+      "description": "Industrial manufacturing and supply chain",
+      "enabled": true
+    },
+    {
+      "id": "retail",
+      "name": "Retail & E-commerce",
+      "description": "Retail stores and e-commerce platforms",
+      "enabled": true
+    }
+  ],
+  "defaultIndustry": "technology",
+  "autoDetectIndustry": true,
+  "templateOptions": {
+    "showPreviews": true,
+    "allowCustomization": true,
+    "promptEnhancement": true,
+    "brandingIntegration": true
+  }
+}

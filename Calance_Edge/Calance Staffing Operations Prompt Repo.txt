@@ -1,0 +1,607 @@
+Calance RECRUITING LIFECYCLE PROMPTS
+
+---
+
+### **1. Job Description Enhancer** ✨ *IMPROVED*
+
+**Purpose:** Transform internal job descriptions into compelling external postings
+
+**Instructions:**
+Transform the provided job description into an engaging external posting optimized for job boards. Follow these requirements exactly:
+
+**CONTENT TRANSFORMATION:**
+- Replace all client names with "Our Client" 
+- Remove identifying details (employee counts, specific locations, proprietary systems)
+- For missing data, use `[TBD]` and list in "Missing Information" section
+- Evaluate additional info for relevance—include valuable details in "Important Notes" or omit
+
+**WRITING REQUIREMENTS:**
+- **Length:** 350-400 words maximum
+- **Tone:** Professional yet energizing—use active verbs ("Shape," "Drive," "Lead")
+- **Hook:** Open with compelling opportunity statement, not generic intro
+- **Inclusivity:** Use gender-neutral language; highlight diverse skills/backgrounds valued
+- **Scannability:** Use bullet points for all lists (responsibilities, qualifications, skills)
+
+**OUTPUT FORMAT:** Markdown with this exact structure:
+
+```markdown
+**Our Client:** [2-3 sentence description: industry + what makes role exciting]
+
+**Position:** [Title]  
+**Duration:** [Contract length / Full-time]  
+**Location:** [City, State or Remote]  
+**Work Arrangement:** [Onsite/Remote/Hybrid + details]
+
+**Role Summary:**  
+[3-5 compelling sentences covering: key impact, team context, growth potential, why now]
+
+**Responsibilities:**  
+- [Responsibility with action verb + measurable outcome]
+- [Continue for 4-6 key responsibilities]
+
+**Ideal Candidates Will Have:**  
+- [Experience/qualification + context on why it matters]
+- [Continue for 3-5 qualifications]
+
+**Required Skills/Experience:**  
+- [Critical skill with proficiency level if applicable]
+- [Continue for 5-8 requirements]
+
+**Other Skills:** *(Preferred but not required)*  
+- [Nice-to-have skill]
+- [Continue for 2-4 items]
+
+**Important Notes:** *(Only if applicable)*  
+- [Relevant detail: travel %, security clearance, unique work conditions]
+
+**Calance Consultant Benefits Offerings:**  
+- EPO/PPO Medical Plan (Anthem)  
+- HMO/PPO Dental programs (Anthem)  
+- Vision - VSP (MetLife)  
+- 401K VOYA Retirement vesting program  
+
+**Who is Calance?**  
+Calance is a global IT company with operations in the United States, Canada, and India. Over the years, Calance has grown organically and has acquired numerous successful IT Services firms along the way. As a result, the company today is a mix of diverse cultures, talents, and expertise that collaborate globally to bring our best capabilities and thinking to clients. Calance also offers benefits which includes Medical, Dental, Vision care, and 401K.  
+
+**Calance - the place to grow.**  
+www.calance.com
+
+**Missing Information:** *(Only if applicable)*  
+- [Field]: [TBD – specific info needed]
+```
+
+**QUALITY CHECKLIST:**
+- [ ] No client-identifying information present
+- [ ] Opens with compelling hook (not "We are seeking...")
+- [ ] All lists use bullet points
+- [ ] Under 400 words (excluding benefits/company sections)
+- [ ] Active verbs used throughout
+- [ ] Role impact clearly communicated
+
+---
+
+### **2. Skills/Title/Location Extractor** 🎯 *IMPROVED*
+
+**Purpose:** Parse job descriptions for ATS optimization and job board targeting
+
+**Instructions:**
+Analyze the job description and extract three specific outputs:
+
+**OUTPUT 1 - Technical Skills:**
+Create a comma-separated inline list of ONLY:
+- Programming languages (Java, Python, C++)
+- Frameworks/libraries (React, Django, TensorFlow)
+- Tools (Docker, Jenkins, Salesforce)
+- Platforms (AWS, Azure, Kubernetes)
+- Databases (PostgreSQL, MongoDB, Oracle)
+
+**Exclude:** Soft skills, certifications, methodologies
+**Format:** `Java, AWS, Docker, PostgreSQL, React, Kubernetes`
+
+**OUTPUT 2 - Optimized Job Title:**
+Create a market-standard title that:
+- Includes seniority level (Junior/Mid/Senior/Staff/Principal)
+- Specifies specialization if applicable
+- Matches common job board searches
+- Avoids internal jargon
+
+**Format:** `Senior Full Stack Engineer (Cloud Infrastructure)`
+
+**OUTPUT 3 - Location Codes:**
+Provide:
+- 5-digit ZIP code of primary work location
+- 3-digit phone area code for that region
+- If remote: State "Remote - [Country]"
+
+**Format:** `30309, 404` or `Remote - USA`
+
+**COMPLETE OUTPUT EXAMPLE:**
+```
+Skills: Java, Spring Boot, AWS, PostgreSQL, Docker, Kubernetes, Jenkins, React, TypeScript
+
+Title: Senior Backend Engineer (Cloud Microservices)
+
+Location: 78701, 512
+```
+
+---
+
+### **3. Candidate Sourcing Email** 📧 *SIGNIFICANTLY IMPROVED*
+
+**Purpose:** Generate personalized outreach that converts passive candidates
+
+**Instructions:**
+Create an email template that balances urgency with authenticity. Use this proven structure:
+
+**SUBJECT LINE OPTIONS:** *(Provide 3 variations)*
+1. Direct: `[Role Title] at [Industry Description] - [Unique Selling Point]`
+2. Curiosity: `Your [Skill] background + this [Impact Area] role`
+3. Urgency: `Fast-moving opportunity: [Role Title] with [Compelling Detail]`
+
+**EMAIL STRUCTURE:**
+
+```markdown
+**Subject:** [Best subject line from options above]
+
+Hi [First Name],
+
+[HOOK - 1-2 sentences]
+[Why them specifically - reference their background without oversharing: "Your experience with [Technology/Domain] caught my attention..."]
+
+[THE OPPORTUNITY - 2-3 sentences]
+[What makes this role exciting: impact, growth, technology, team]
+[One specific detail that differentiates this from generic roles]
+
+[URGENCY + SOCIAL PROOF - 1-2 sentences]
+[Our client is moving quickly on interviews - they're eager to bring someone on within [timeframe]. We're already in conversations with several qualified candidates, but I wanted to reach out to you first given your [specific qualification].]
+
+**About the Role:**
+- **Position:** [Title]
+- **Location:** [City/Remote + work arrangement]
+- **Environment:** [1-sentence description of team/tech/culture]
+- **Impact:** [What they'll be building/solving]
+
+**Why Calance:**
+As a global IT company operating across the US, Canada, and India, Calance brings together diverse expertise from our organic growth and strategic acquisitions. We support our consultants with comprehensive benefits (medical, dental, vision, 401K) and prioritize long-term career growth through challenging, impactful projects.
+
+[CALL TO ACTION]
+Are you open to a brief 15-minute call this week to discuss? I'm available [Day] or [Day] if either works for you—or feel free to suggest a time that's better.
+
+Looking forward to connecting,
+
+[Your Name]  
+[Title]  
+[Phone]  
+[Email]  
+[LinkedIn]
+```
+
+**WRITING RULES:**
+- ❌ **NEVER use:** "I hope this finds you well," "I came across your profile," "We have an exciting opportunity"
+- ✅ **DO use:** Specific references to their work, direct language, genuine enthusiasm
+- **Length:** 180-220 words (excluding signature)
+- **Tone:** Professional peer, not salesperson
+- **Personalization fields:** [First Name], [Technology/Domain], [Qualification], [Day options]
+
+**DO NOT INCLUDE:** Compensation, specific client names, benefits beyond general Calance overview
+
+---
+
+### **4. Submittal Executive Summary** 📋 *IMPROVED*
+
+**Purpose:** Create compelling candidate summaries that get submissions approved
+
+**Instructions:**
+Using the job description and candidate profile provided, write a 3-5 sentence executive summary that proves candidate-role fit.
+
+**STRUCTURE:**
+1. **Opening:** Candidate's professional identity + years of relevant experience
+2. **Skills alignment:** 2-3 specific technical/domain matches with the role requirements
+3. **Unique value:** What differentiates this candidate (e.g., specific achievement, rare skill combo, industry context)
+4. **Impact statement:** Concrete example of past results relevant to this role
+
+**WRITING REQUIREMENTS:**
+- Use past tense for achievements ("Led," "Delivered," "Reduced")
+- Include specific metrics where available (%, $, timeframes)
+- Name exact technologies from job description
+- Avoid generic phrases ("team player," "go-getter," "passionate")
+- Focus on **outcomes**, not just activities
+
+**EXAMPLE OUTPUT:**
+```
+John Smith is a Senior DevOps Engineer with 8+ years architecting cloud-native infrastructure on AWS and Azure. His expertise in Kubernetes orchestration, Terraform IaC, and CI/CD pipeline optimization directly aligns with the role's requirement for scalable microservices deployment. At his current role, John reduced deployment times by 60% and infrastructure costs by $240K annually by implementing GitOps workflows and containerization standards. His experience leading cross-functional teams through cloud migrations positions him to immediately drive the modernization initiatives outlined in this position.
+```
+
+**QUALITY CHECKS:**
+- [ ] 3-5 sentences (no more)
+- [ ] At least 2 specific technical skills from job description
+- [ ] One quantifiable achievement
+- [ ] No fluff or generic descriptors
+- [ ] Past tense for completed work
+
+---
+
+### **5. Interview Prep Email Builder** 📅 *SIGNIFICANTLY IMPROVED*
+
+**Purpose:** Interactive guide to create comprehensive candidate interview prep emails
+
+**System Behavior:**
+Act as an interactive assistant that collects information ONE QUESTION AT A TIME, validates input, then generates a customized interview prep email.
+
+**COLLECTION SEQUENCE:**
+
+**Step 1:** "Let's prepare your candidate's interview email. What is the candidate's full name?"  
+*[Validate: Non-empty string]*
+
+**Step 2:** "What position are they interviewing for?"  
+*[Validate: Non-empty string]*
+
+**Step 3:** "Please paste the full job description. I'll extract key responsibilities from it."  
+*[Validate: Minimum 100 characters]*
+
+**Step 4:** "What's the interview date? (Format: YYYY-MM-DD, e.g., 2025-01-15)"  
+*[Validate: Valid date format, not in past]*
+
+**Step 5:** "What time is the interview? (Format: HH:MM AM/PM, e.g., 02:30 PM)"  
+*[Validate: Valid time format]*
+
+**Step 6:** "How long will the interview be? (Enter minutes, e.g., 60)"  
+*[Validate: Positive integer between 15-480]*
+
+**Step 7:** "Who is the interviewer's name?"  
+*[Validate: Non-empty string]*
+
+**Step 8:** *(Optional)* "Do you have the interviewer's LinkedIn URL? (Press Enter to skip)"  
+*[Validate if provided: URL format]*
+
+**Step 9:** "Which video platform? (e.g., Zoom, Microsoft Teams, Google Meet)"  
+*[Validate: Non-empty string]*
+
+**Step 10:** "What's the video call link?"  
+*[Validate: Valid URL format]*
+
+**Step 11:** *(Optional)* "Is there a dial-in number? (Press Enter to skip)"
+
+**Step 12:** *(Optional)* "Any additional phone numbers? Separate with commas. (Press Enter to skip)"
+
+**Step 13:** "Video tips link:"  
+*[Default: https://share.vidyard.com/watch/MJVkHCsB7EmKVmwnHwQvfE]*
+
+**Step 14:** "What's your name (for the signature)?"
+
+**Step 15:** *(Optional)* "Preferred tone? (Professional/Formal/Friendly - default is Professional)"
+
+**AFTER COLLECTION:** "Generating your email now..."
+
+**EMAIL TEMPLATE:**
+
+```markdown
+**Subject:** Interview Preparation - [Position] at [Client Name]
+
+Hi [Candidate Name],
+
+Your interview for the [Position] role is coming up—here's everything you need to be fully prepared and confident.
+
+**Quick Prep Video (4 mins):**  
+[Video Tips Link]
+
+**Key Preparation Areas:**
+- **Review the Job Description:** Focus on how your experience aligns with the core requirements
+- **Research [Client Name]:** Understand their mission, recent projects, and market position
+- **Prepare Your Questions:** Have 3-4 thoughtful questions ready about the role, team, or projects
+- **Technical Skills:** [If technical role: "Be ready to discuss your experience with [2-3 key technologies from JD]"]
+- **STAR Method:** Prepare examples using Situation-Task-Action-Result for behavioral questions
+
+**Core Responsibilities for this [Position] role:**
+[Extract 4-6 key responsibilities from job description and list as bullets]
+
+**Interview Logistics:**
+- **Date:** [Interview Date]
+- **Time:** [Interview Time] ([Duration] minutes)
+- **Interviewer:** [Interviewer Name] [If LinkedIn provided: ([View LinkedIn Profile]([LinkedIn URL]))]
+- **Platform:** [Video Platform]
+- **Join Link:** [Video Link]
+[If dial-in: - **Dial-in:** [Dial-in Number]]
+[If additional numbers: - **Additional Numbers:** [Numbers]]
+
+**Please join 3-5 minutes early to test your audio/video.**
+
+[Tone-adjusted closing:
+- Professional: "Please let me know if you have any questions."
+- Formal: "Should you require any clarification, please do not hesitate to contact me."
+- Friendly: "Feel free to reach out if you have any questions—you've got this!"]
+
+Best regards,  
+[Your Name]
+```
+
+**VALIDATION ERRORS:** If user provides invalid input, respond:
+"I need that information in [correct format]. For example: [example]. Please try again:"
+
+---
+
+### **6. Mock Interview Questions Generator** 💼 *IMPROVED*
+
+**Purpose:** Create role-specific vetting questions with model answers for recruiters
+
+**Instructions:**
+Generate a vetting guide for recruiters to assess candidate fit before client submission.
+
+**OUTPUT STRUCTURE:**
+
+```markdown
+**POSITION SUMMARY**
+[3-4 sentence overview: role purpose, key responsibilities, ideal candidate profile]
+
+**ROLE ESSENTIALS**
+- **Location:** [City, State / Remote / Hybrid details]
+- **Duration:** [Full-time / Contract length]
+- **Required Skills:** [5-7 critical technical/domain skills]
+- **Experience Level:** [Years + seniority]
+- **Remote Work:** [Yes/No + conditions]
+- **Salary Range:** [If known, otherwise: "Competitive / Negotiable"]
+
+---
+
+**VETTING QUESTIONS**
+
+**1. TECHNICAL DEPTH**
+**Q:** [Question testing core technical competency from job requirements]
+*Example: "Walk me through how you would design a microservices architecture for [specific use case from JD]. What tools and patterns would you use?"*
+
+**Model Answer:**  
+[3-4 sentences demonstrating:
+- Specific technologies mentioned in JD
+- Best practices for the domain
+- Awareness of tradeoffs
+- Practical implementation experience]
+
+---
+
+**2. BEHAVIORAL FIT**
+**Q:** [Question assessing soft skills or team dynamics relevant to role]
+*Example: "Describe a time when you had to [specific challenge from role context, e.g., 'deliver a project with ambiguous requirements']. How did you approach it?"*
+
+**Model Answer:**  
+[STAR format response showing:
+- Situation: Context relevant to this role
+- Task: Specific responsibility
+- Action: Concrete steps taken
+- Result: Measurable outcome]
+
+---
+
+**3. SITUATIONAL JUDGMENT**
+**Q:** [Scenario-based question testing problem-solving in role-specific context]
+*Example: "You're [specific scenario from role]. What's your action plan?"*
+
+**Model Answer:**  
+[Response demonstrating:
+- Immediate priorities
+- Stakeholder considerations
+- Technical approach
+- Risk mitigation]
+
+---
+
+**RED FLAGS TO WATCH FOR:**
+- [2-3 specific things that would disqualify candidate]
+- [Based on "required" vs "nice-to-have" from JD]
+
+**GREEN LIGHTS:**
+- [2-3 specific indicators of strong fit]
+- [Beyond just technical skills—domain knowledge, cultural fit indicators]
+```
+
+**DERIVATION RULES:**
+- Extract questions ONLY from provided job description and conversation context
+- Technical question must test the #1 required skill
+- Behavioral question should address the role's biggest challenge (e.g., if role mentions "fast-paced," ask about handling competing priorities)
+- Situational question must use a realistic scenario from the role's day-to-day
+
+---
+
+### **7. Sourcing Search String Creator** 🔍 *IMPROVED*
+
+**Purpose:** Generate Boolean search strings optimized for candidate sourcing platforms
+
+**Instructions:**
+Create platform-specific search strings that maximize relevant candidate discovery while minimizing noise.
+
+**ANALYSIS STEPS:**
+1. Identify **must-have** skills (appear in "Required" section)
+2. Identify **nice-to-have** skills (appear in "Preferred/Other" section)
+3. Extract **alternative job titles** candidate might use
+4. Note **seniority indicators** (years, levels)
+5. Determine **exclusions** (technologies/roles to filter out)
+
+**OUTPUT FORMAT:**
+
+```markdown
+**JOB TARGETING:** [Position Title] | [Seniority] | [Primary Technologies]
+
+---
+
+**LINKEDIN RECRUITER**
+```
+(title:"[Primary Title]" OR title:"[Alt Title 1]" OR title:"[Alt Title 2]")
+AND
+([Required Skill 1] AND [Required Skill 2] AND [Required Skill 3])
+AND
+([Nice-to-Have Skill 1] OR [Nice-to-Have Skill 2])
+NOT
+([Exclusion 1] OR [Exclusion 2])
+```
+
+**Filters to Apply:**
+- Location: [From JD]
+- Years of Experience: [Range based on seniority]
+- Current Company Size: [If relevant to role]
+
+---
+
+**DICE / MONSTER**
+```
+"[Primary Title]" OR "[Alt Title 1]" ([Required Skill 1] AND [Required Skill 2] AND [Required Skill 3]) ([Nice Skill 1] OR [Nice Skill 2]) -"[Exclusion 1]" -"[Exclusion 2]"
+```
+
+---
+
+**INDEED**
+```
+[Primary Title] [Required Skill 1] [Required Skill 2] [Required Skill 3]
+```
+*Note: Indeed's Boolean is limited; use filters heavily*
+
+**Filters to Apply:**
+- Job Title: [Primary + alternates]
+- Location: [Radius from JD location]
+- Experience Level: [From JD]
+
+---
+
+**GITHUB (for technical roles)**
+```
+[Required Technology/Framework] [Required Language] location:"[City/Region]"
+```
+
+**Additional Filters:**
+- Minimum repos: 5+
+- Recent activity: Last 6 months
+
+---
+
+**SEARCH STRATEGY NOTES:**
+- **Phase 1 (Days 1-3):** Use LinkedIn string with strict requirements
+- **Phase 2 (Days 4-7):** Broaden with Monster/Dice, remove one "nice-to-have"
+- **Phase 3 (Week 2+):** Expand to adjacent titles, reduce experience requirement by 1 year
+
+**COMMON PITFALLS TO AVOID:**
+- Don't search for soft skills ("team player," "fast learner")
+- Avoid overly restrictive combinations (if searching for 5+ skills with AND, you'll get zero results)
+- Skip company names in search (search for alumni separately)
+```
+
+**QUALITY CRITERIA:**
+- Strings should return 50-200 results on LinkedIn (if fewer, too restrictive; if more, too broad)
+- Test searches before using at scale
+- Include at least 2 alternative titles to capture similar roles
+
+---
+
+### **8. Candidate Submittal Generator** 📄 *SIGNIFICANTLY IMPROVED*
+
+**Purpose:** Create standardized submittal documents with consistent formatting
+
+**System Behavior:**
+I will guide you through creating a candidate submittal by asking for each piece of information individually. Provide accurate details for each field—this document will be sent to the client.
+
+**INFORMATION COLLECTION:**
+
+*[Ask each question below ONE AT A TIME, validate response, then proceed]*
+
+1. **"What is the exact role title from the client's job description?"**  
+   Format: Include seniority + specialization (e.g., "Production Engineer V (Data & Analytics)")
+
+2. **"What is the client's job reference number and state?"**  
+   Format: [Project Code] - [2-letter State] (e.g., "GS 062823 - TX")
+
+3. **"Candidate's full legal name?"**
+
+4. **"Candidate's phone number?"**  
+   Format: ###-###-####
+
+5. **"Candidate's primary email?"**
+
+6. **"What is the total compensation package?"**  
+   Format: $[Amount] K per annum+ Benefits
+
+7. **"Candidate's citizenship status?"**  
+   Options: US Citizen | Green Card Holder | H1-B Visa | OPT/CPT | Other [specify]
+
+8. **"Is candidate local to the job location? (within 50 miles)"**  
+   Answer: Yes or No
+
+9. **"Can candidate attend in-person interviews at client site?"**  
+   Answer: Yes or No
+
+10. **"Candidate's home city and state?"**  
+    Format: City, ST
+
+11. **"Provide candidate's resume or career summary. I'll generate the Experience Summary from this."**
+
+**AFTER COLLECTION:** "Generating your submittal now..."
+
+**OUTPUT TEMPLATE:**
+
+```
+Role:                          [Role Title from #1]
+Client Job#:                   [Job# from #2]
+Candidate:                     [Name from #3]
+Pay Rate:                      [Compensation from #6]
+Citizenship:                   [Status from #7]
+Contact#:                      [Phone from #4]
+Email Address:                 [Email from #5]
+Local Candidate:               [Yes/No from #8]
+Able to in-person interview:   [Yes/No from #9]
+Home Location:                 [Location from #10]
+
+Experience Summary:
+[5 achievement-focused sentences following this exact structure:]
+
+**Sentence 1:** [Professional identity + core expertise domain]
+Example: "Highly skilled Production Support Engineer with expertise in Control-M, Linux, SQL Server, and Java application troubleshooting..."
+
+**Sentence 2:** [Specific troubleshooting/problem-solving achievement]
+Example: "Utilized advanced troubleshooting techniques across R&D tools and systems, conducting deep code-level analysis to resolve critical production issues."
+
+**Sentence 3:** [Technical implementation or development achievement]
+Example: "Implemented multiple data binding strategies and API integrations to optimize backend data retrieval and display performance."
+
+**Sentence 4:** [Methodology/collaboration achievement]
+Example: "Collaborated effectively within Agile/SCRUM teams, contributing to sprint planning, daily standups, and retrospective improvement initiatives."
+
+**Sentence 5:** [Production support/operational achievement]
+Example: "Delivered 99.9% uptime for mission-critical systems through proactive monitoring, rapid incident response, and cross-team coordination with development and operations."
+```
+
+**EXPERIENCE SUMMARY RULES:**
+- ✅ **DO:** Use past tense, cite specific technologies, include measurable outcomes
+- ❌ **DON'T:** Use vague descriptors ("hardworking," "detail-oriented"), future tense, or buzzwords without context
+- **Technology mentions:** Minimum 5 specific tools/languages/platforms
+- **Structure:** Must follow the 5-sentence template exactly
+
+**FORMATTING REQUIREMENTS:**
+- All labels left-aligned with consistent spacing (align the colons)
+- Use standard capitalization (e.g., "Yes" not "YES")
+- Phone format: Exactly ###-###-####
+- Pay format: Exactly $### K per annum+ Benefits
+
+**VALIDATION BEFORE SUBMISSION:**
+- [ ] All fields completed (no [TBD] or blanks)
+- [ ] Experience Summary is exactly 5 sentences
+- [ ] At least 5 technologies mentioned in summary
+- [ ] Phone and pay rate formatting correct
+- [ ] Yes/No answers are capitalized consistently
+
+---
+
+## **SUMMARY OF IMPROVEMENTS**
+
+**What Changed:**
+
+1. **Structural Clarity:** Each prompt now has clear purpose statements, step-by-step instructions, and validation criteria
+2. **Output Consistency:** Exact templates with formatting requirements eliminate ambiguity
+3. **Quality Controls:** Built-in checklists and validation rules ensure consistent output
+4. **User Experience:** Interactive prompts guide users through complex tasks one step at a time
+5. **Actionability:** Specific examples and "do/don't" guidelines reduce trial-and-error
+6. **Modern Best Practices:** Incorporates current recruiting/ATS optimization strategies
+7. **Error Prevention:** Input validation and common pitfall warnings
+
+**How to Use These:**
+- Copy each improved prompt into your AI tool
+- Test with real job descriptions
+- Adjust terminology to match your ATS/processes
+- Train recruiters on the expected inputs for each prompt
+
+Would you like me to create additional prompts for other recruiting lifecycle stages, or would you like me to refine any of these further for your specific use cases?
