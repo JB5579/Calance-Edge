@@ -247,6 +247,102 @@ BAD bullet: "The platform significantly improved the efficiency of deal evaluati
             logger.error(f"Claude analysis failed: {e}")
             raise
 
+    def _condense_infographic_prompt(self, prompt, max_length=3000):
+        """Condense infographic prompt to fit within OpenRouter function call limits"""
+
+        if len(prompt) <= max_length:
+            return prompt
+
+        logger.warning(f"Prompt too long ({len(prompt)} chars), condensing to {max_length}")
+
+        # Priority elements to preserve (in order)
+        priority_patterns = [
+            'Client:', 'Headline:', 'Challenge:', 'Solution:', 'Results:', 'Metrics:',
+            'Navy (#1e3a5f)', 'Blue (#2563eb)', 'Orange (#f97316)', 'CASE STUDY'
+        ]
+
+        # Split into sections
+        sections = prompt.split('\n\n')
+        condensed_sections = []
+        current_length = 0
+
+        # Always include branding section first (most critical)
+        branding_section = ""
+        for section in sections:
+            if 'BRANDING' in section or 'branding' in section.lower():
+                branding_section = self._minimize_section(section, target_length=800)
+                condensed_sections.append(branding_section)
+                current_length += len(branding_section)
+                break
+
+        # Add other sections by priority
+        remaining_sections = [s for s in sections if 'BRANDING' not in s and 'branding' not in s.lower()]
+
+        for section in remaining_sections:
+            if current_length >= max_length - 200:  # Leave buffer
+                break
+
+            # Check if section contains priority content
+            section_priority = sum(1 for pattern in priority_patterns if pattern in section)
+
+            if section_priority > 0:
+                # Allocate space based on priority
+                available_space = max_length - current_length - 100
+                section_space = min(available_space, 300 + (section_priority * 100))
+
+                condensed_section = self._minimize_section(section, target_length=section_space)
+                condensed_sections.append(condensed_section)
+                current_length += len(condensed_section)
+
+        # Join and final trim if still too long
+        condensed_prompt = '\n\n'.join(condensed_sections)
+
+        if len(condensed_prompt) > max_length:
+            # Final emergency truncation
+            condensed_prompt = condensed_prompt[:max_length-50] + "... [truncated]"
+
+        logger.info(f"Condensed prompt from {len(prompt)} to {len(condensed_prompt)} characters")
+        return condensed_prompt
+
+    def _minimize_section(self, section, target_length):
+        """Minimize a section while preserving key information"""
+
+        if len(section) <= target_length:
+            return section
+
+        # Remove redundant words and use abbreviations
+        minimized = section
+
+        # Common replacements
+        replacements = {
+            'Create a one-page': 'Create 1-page',
+            'infographic': 'info',
+            'professional': 'pro',
+            'background': 'bg',
+            'corporation': 'corp',
+            'japan': 'JP',
+            'left': 'L', 'right': 'R'
+        }
+
+        for old, new in replacements.items():
+            minimized = minimized.replace(old, new)
+
+        # Remove excessive whitespace and empty lines
+        lines = [line.strip() for line in minimized.split('\n') if line.strip()]
+        minimized = ' '.join(lines)
+
+        # If still too long, truncate intelligently
+        if len(minimized) > target_length:
+            # Try to keep first and last parts
+            if target_length > 100:
+                keep_start = target_length // 2 - 20
+                keep_end = target_length // 2 - 20
+                minimized = minimized[:keep_start] + "..." + minimized[-keep_end:]
+            else:
+                minimized = minimized[:target_length-3] + "..."
+
+        return minimized
+
     async def _generate_complete_case_study(self, structured_data):
         """Step 2: Generate a SINGLE 8.5x11 infographic image using Gemini
 
@@ -306,6 +402,14 @@ Results: {results_bullets[0] if results_bullets else 'Significant improvement'}
 Metrics: {metrics_summary}
 
 STYLE: Professional with data visualizations for metrics."""
+
+        # Apply smart prompt condensation to prevent OpenRouter function call errors
+        original_length = len(infographic_prompt)
+        infographic_prompt = self._condense_infographic_prompt(infographic_prompt, max_length=3000)
+        condensed_length = len(infographic_prompt)
+
+        if original_length != condensed_length:
+            logger.info(f"Prompt condensed: {original_length} → {condensed_length} characters")
 
         try:
             # Load logo for multimodal request
@@ -1363,6 +1467,283 @@ def get_previous_version(generation_id):
     return None
 
 # ============================================
+# Image Processing & Refinement Utilities
+# ============================================
+
+INFOGRAPHIC_REGIONS = {
+    'title': {
+        'coords': (0.1, 0.05, 0.9, 0.15),     # (x1, y1, x2, y2) normalized
+        'description': 'Title area with main heading'
+    },
+    'challenge': {
+        'coords': (0.05, 0.25, 0.45, 0.55),
+        'description': 'Challenge/problem section'
+    },
+    'solution': {
+        'coords': (0.55, 0.25, 0.95, 0.55),
+        'description': 'Solution/approach section'
+    },
+    'metrics': {
+        'coords': (0.1, 0.65, 0.9, 0.85),
+        'description': 'Metrics/results section with numbers'
+    },
+    'style_sample': {
+        'coords': (0.1, 0.9, 0.3, 0.95),
+        'description': 'Color palette and styling sample'
+    }
+}
+
+VISUAL_CONTINUITY_PROMPT = """
+CRITICAL VISUAL CONTINUITY INSTRUCTIONS:
+
+You are given a current infographic image that the user likes. They want minor tweaks ONLY.
+
+ABSOLUTE REQUIREMENTS:
+1. Maintain exact same layout structure
+2. Keep identical color scheme (unless explicitly asked to change)
+3. Preserve all positioning and spacing
+4. Use same fonts and styling
+5. Keep same visual hierarchy
+6. DO NOT reorganize or redesign - ONLY make requested changes
+
+TWEAK EXAMPLES:
+- "Change title" → Same location, same font, different text only
+- "Add purple accents" → Same layout, add purple elements
+- "Remove metric" → Same layout, remove one element, keep others positioned identically
+
+VIOLATION EXAMPLES (DO NOT DO):
+❌ Reorganizing layout "for better flow"
+❌ Changing colors that weren't mentioned
+❌ Redesigning the visual structure
+❌ Moving elements to "improve" composition
+
+THINK: Preserve everything, change only what was explicitly requested.
+"""
+
+def crop_infographic_region(infographic_data_url, region_coords):
+    """Crop a specific region from infographic image"""
+    try:
+        # Validate input
+        if not infographic_data_url:
+            logger.error("No infographic data URL provided for cropping")
+            return None
+
+        if isinstance(infographic_data_url, dict):
+            logger.error(f"Received dict instead of URL string: {infographic_data_url}")
+            infographic_data_url = infographic_data_url.get('url', '')
+            if not infographic_data_url:
+                return None
+
+        logger.info(f"Cropping image from URL: {infographic_data_url[:50]}...")
+
+        # Convert data URL to PIL Image
+        if ',' in infographic_data_url:
+            header, base64_data = infographic_data_url.split(",", 1)
+        else:
+            base64_data = infographic_data_url
+
+        img_bytes = base64.b64decode(base64_data)
+        pil_img = PILImage.open(io.BytesIO(img_bytes))
+
+        # Convert normalized coordinates to pixel coordinates
+        width, height = pil_img.size
+        x1, y1, x2, y2 = region_coords
+        left = int(x1 * width)
+        top = int(y1 * height)
+        right = int(x2 * width)
+        bottom = int(y2 * height)
+
+        # Crop the region
+        cropped_img = pil_img.crop((left, top, right, bottom))
+
+        # Convert back to data URL
+        buffer = io.BytesIO()
+        cropped_img.save(buffer, format='PNG')
+        buffer.seek(0)
+        cropped_base64 = base64.b64encode(buffer.getvalue()).decode()
+
+        return f"data:image/png;base64,{cropped_base64}"
+
+    except Exception as e:
+        logger.error(f"Error cropping infographic region: {str(e)}")
+        return None
+
+def determine_relevant_crops(feedback):
+    """Analyze feedback text to determine which infographic sections to crop"""
+
+    crops = []
+    feedback_lower = feedback.lower()
+
+    # Title-related feedback
+    if any(keyword in feedback_lower for keyword in ['title', 'headline', 'heading']):
+        crops.append('title')
+
+    # Metrics/numbers feedback
+    if any(keyword in feedback_lower for keyword in ['metric', 'number', 'percentage', 'stat', '%']):
+        crops.append('metrics')
+
+    # Challenge section feedback
+    if any(keyword in feedback_lower for keyword in ['challenge', 'problem', 'issue']):
+        crops.append('challenge')
+
+    # Solution section feedback
+    if any(keyword in feedback_lower for keyword in ['solution', 'approach', 'implementation']):
+        crops.append('solution')
+
+    # Results feedback
+    if any(keyword in feedback_lower for keyword in ['result', 'outcome', 'achievement']):
+        crops.append('results')
+
+    # Color/style feedback
+    if any(keyword in feedback_lower for keyword in ['color', 'accent', 'style', 'design', 'purple', 'pink', 'blue']):
+        crops.append('style_sample')
+
+    return crops
+
+def generate_context_images(infographic_data_url, feedback):
+    """Generate relevant context images based on feedback analysis"""
+
+    # Always include full infographic
+    context_images = [{
+        'type': 'text',
+        'text': 'Complete infographic for context:'
+    }, {
+        'type': 'image_url',
+        'image_url': {"url": infographic_data_url}
+    }]
+
+    # Determine which sections to crop
+    needed_crops = determine_relevant_crops(feedback)
+    logger.info(f"Feedback analysis identified crops needed: {needed_crops}")
+
+    # SMART CROP STRATEGY: Limit crops to prevent timeout
+    max_crops = 1  # Only send 1 crop to stay within limits
+    selected_crops = []
+
+    # Prioritize crops: title > metrics > others
+    crop_priority = ['title', 'metrics', 'solution', 'challenge', 'style_sample']
+
+    for crop_type in crop_priority:
+        if crop_type in needed_crops and len(selected_crops) < max_crops:
+            selected_crops.append(crop_type)
+            break
+
+    # Generate specific crops with descriptions
+    for crop_type in selected_crops:
+        if crop_type in INFOGRAPHIC_REGIONS:
+            region_info = INFOGRAPHIC_REGIONS[crop_type]
+            cropped_image = crop_infographic_region(
+                infographic_data_url,
+                region_info['coords']
+            )
+
+            if cropped_image:
+                context_images.append({
+                    'type': 'text',
+                    'text': f"{region_info['description']} (note exact styling):"
+                })
+                context_images.append({
+                    'type': 'image_url',
+                    'image_url': {"url": cropped_image}
+                })
+                logger.info(f"Generated crop for {crop_type}: {region_info['description']}")
+
+    logger.info(f"Smart crop selection: generated {len(selected_crops)} crops to prevent timeout")
+    return context_images
+
+async def refine_case_study_with_images(infographic_data_url, feedback, client_data):
+    """Refine case study using multi-image context with visual continuity"""
+
+    try:
+        # Generate context images based on feedback analysis
+        context_images = generate_context_images(infographic_data_url, feedback)
+
+        # Build refinement request text
+        refinement_request = f"""
+REFINEMENT REQUEST: "{feedback}"
+
+Apply this change while keeping ALL other visual elements identical.
+Preserve exact styling shown in the close-up images.
+Generate a new infographic with only the requested changes.
+"""
+
+        # Apply prompt condensation to prevent function call errors
+        ai_service_instance = AIService()
+
+        # Condense system prompt
+        condensed_system_prompt = ai_service_instance._condense_infographic_prompt(
+            VISUAL_CONTINUITY_PROMPT, max_length=2000
+        )
+
+        # Condense user request
+        condensed_request = ai_service_instance._condense_infographic_prompt(
+            refinement_request, max_length=800
+        )
+
+        logger.info(f"Refinement prompts condensed for safety")
+
+        # Build multi-image prompt for Gemini image generation
+        messages = [{
+            "role": "user",
+            "content": context_images + [{
+                'type': 'text',
+                'text': f"""
+{condensed_system_prompt}
+
+{condensed_request}
+
+Generate a new infographic image with the requested changes while preserving the exact visual style and layout shown in the reference images.
+"""
+            }]
+        }]
+
+        # Use Gemini 3 Pro for refinement too (image generation capability)
+        model = app.config['MODEL_CASE_STUDY_IMAGE']  # Gemini generates images
+
+        # API call parameters for refinement
+        request_params = {
+            "model": model,
+            "temperature": 0.1,  # Very conservative for visual continuity
+            "max_tokens": 1000,  # Minimal text, focus on image
+            "modalities": ["image", "text"],
+            "messages": messages
+        }
+
+        # Call OpenRouter API with extended timeout for refinement
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            response = await client.post(
+                f"{app.config['OPENROUTER_BASE_URL']}/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {app.config['OPENROUTER_API_KEY']}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://calance-edge.com",
+                    "X-Title": "Calance Edge - Case Study Refinement"
+                },
+                json=request_params
+            )
+            response.raise_for_status()
+
+            ai_response = response.json()
+
+            # Extract refined images
+            if 'choices' in ai_response and len(ai_response['choices']) > 0:
+                choice = ai_response['choices'][0]
+                if 'message' in choice and 'images' in choice['message']:
+                    refined_images = choice['message']['images']
+                    logger.info(f"Refinement successful: {len(refined_images)} images generated")
+                    return refined_images
+                else:
+                    logger.warning("No images in refinement response")
+                    return []
+            else:
+                logger.error("Invalid refinement response format")
+                return []
+
+    except Exception as e:
+        logger.error(f"Error in refinement: {str(e)}")
+        raise
+
+# ============================================
 # API Routes
 # ============================================
 
@@ -1377,9 +1758,88 @@ def health_check():
 
 @app.route('/api/generate/case-study', methods=['POST'])
 def generate_case_study():
-    """Generate case study based on input data - uses two-step AI process for freeform input"""
+    """Generate or refine case study based on input data - uses two-step AI process for freeform input"""
     try:
         data = request.get_json()
+
+        # CHECK IF THIS IS A REFINEMENT REQUEST
+        if 'feedback' in data and 'images' in data:
+            logger.info("Processing case study REFINEMENT request with visual continuity")
+            logger.info(f"Feedback: {data.get('feedback', '')}")
+            logger.info(f"Number of images provided: {len(data.get('images', []))}")
+
+            # Validate required fields for refinement
+            if not data.get('images'):
+                return jsonify({"error": "No infographic image provided for refinement"}), 400
+
+            feedback = data.get('feedback', '')
+
+            # Extract infographic data URL (handle both string and dict formats)
+            first_image = data['images'][0]
+            if isinstance(first_image, dict):
+                infographic_data_url = first_image.get('url', '')
+                logger.info(f"Extracted infographic URL from dict: {infographic_data_url[:50]}...")
+            else:
+                infographic_data_url = first_image
+                logger.info(f"Using infographic URL as string: {infographic_data_url[:50]}...")
+
+            if not infographic_data_url:
+                return jsonify({"error": "Invalid infographic image format"}), 400
+
+            try:
+                # Use new multi-image refinement system
+                refined_images = asyncio.run(refine_case_study_with_images(
+                    infographic_data_url=infographic_data_url,
+                    feedback=feedback,
+                    client_data=data
+                ))
+
+                if refined_images:
+                    # Create result structure matching frontend expectations
+                    result = {
+                        "client_name": data.get('clientName', ''),
+                        "industry": data.get('industry', ''),
+                        "title": data.get('title', ''),
+                        "subtitle": data.get('subtitle', ''),
+                        "challengeBullets": data.get('challengeBullets', []),
+                        "solutionBullets": data.get('solutionBullets', []),
+                        "resultsBullets": data.get('resultsBullets', []),
+                        "metrics": data.get('metrics', []),
+                        "technologies": data.get('technologies', []),
+                        "testimonial": data.get('testimonial', ''),
+                        "roi": data.get('roi', ''),
+                        # New refined infographic
+                        "images": refined_images,
+                        "infographic": refined_images[0] if refined_images else None,
+                        "refined": True  # Flag indicating this is a refined version
+                    }
+
+                    # Generate or use existing generation_id for tracking
+                    generation_id = data.get('generation_id', get_generation_id())
+
+                    # Save version for undo functionality
+                    save_version(generation_id, result)
+
+                    # Add generation_id to response
+                    result['generation_id'] = generation_id
+
+                    logger.info(f"Refinement completed successfully: {len(refined_images)} refined images")
+
+                    return jsonify({
+                        "success": True,
+                        "data": result,
+                        "generation_id": generation_id,
+                        "refined": True
+                    })
+                else:
+                    logger.error("Refinement failed: No images returned from AI")
+                    return jsonify({"error": "Refinement failed - no images generated"}), 500
+
+            except Exception as e:
+                logger.error(f"Refinement process failed: {str(e)}")
+                import traceback
+                logger.error(f"Refinement traceback: {traceback.format_exc()}")
+                return jsonify({"error": f"Refinement failed: {str(e)}"}), 500
 
         # TWO-STEP ARCHITECTURE for freeform input
         if 'rawNotes' in data and data.get('inputMode') == 'freeform':
